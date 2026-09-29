@@ -1,15 +1,7 @@
-from sqlalchemy import Boolean, Column, Integer, String, Table, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.database import Base
-
-
-doctor_patient = Table(
-    "doctor_patient",
-    Base.metadata,
-    Column("doctor_id", Integer, ForeignKey("doctors.id")),
-    Column("patient_id", Integer, ForeignKey("patients.id"))
-)
 
 
 class Doctor(Base):
@@ -21,8 +13,4 @@ class Doctor(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     is_active = Column(Boolean, default=True, nullable=False)
 
-    patients = relationship(
-        "Patient",
-        secondary=doctor_patient,
-        back_populates="doctors"
-    )
+    patients = relationship("Patient", back_populates="doctor")

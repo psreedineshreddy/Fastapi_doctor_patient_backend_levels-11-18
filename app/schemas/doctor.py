@@ -18,5 +18,11 @@ class DoctorResponse(BaseModel):
     email: EmailStr
     is_active: bool
 
+class DoctorListResponse(BaseModel):
+    total: int
+    page: int
+    limit: int
+    data: list[DoctorResponse]
+    
     class Config:
         from_attributes = True

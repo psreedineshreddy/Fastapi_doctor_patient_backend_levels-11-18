@@ -1,8 +1,7 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.database import Base
-from app.models.doctor import doctor_patient
 
 
 class Patient(Base):
@@ -13,8 +12,7 @@ class Patient(Base):
     age = Column(Integer, nullable=False)
     phone = Column(String, nullable=False)
 
-    doctors = relationship(
-        "Doctor",
-        secondary=doctor_patient,
-        back_populates="patients"
-    )
+    doctor_id = Column(Integer, ForeignKey("doctors.id"), nullable=False)
+
+    doctor = relationship("Doctor", back_populates="patients")
+    
