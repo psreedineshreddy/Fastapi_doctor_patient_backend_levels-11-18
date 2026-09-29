@@ -25,7 +25,8 @@ def create_patient(
     patient.name,
     patient.age,
     patient.phone,
-    patient.doctor_id
+    patient.doctor_id,
+    current_user["email"]
 )
 
 @router.get("/", response_model=PatientListResponse)
@@ -110,8 +111,9 @@ def update_patient(
     existing_patient.age = patient.age
     existing_patient.phone = patient.phone
     existing_patient.doctor_id = patient.doctor_id
+    existing_patient.updated_by = current_user["email"]
 
-    db.commit()
+    db.commit()    
     db.refresh(existing_patient)
 
     return existing_patient

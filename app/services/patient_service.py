@@ -10,7 +10,8 @@ def create_patient_service(
     name: str,
     age: int,
     phone: str,
-    doctor_id: int
+    doctor_id: int,
+    created_by: str
 ):
     doctor = db.query(Doctor).filter(
         Doctor.id == doctor_id
@@ -32,7 +33,9 @@ def create_patient_service(
         name=name,
         age=age,
         phone=phone,
-        doctor_id=doctor_id
+        doctor_id=doctor_id,
+        created_by=created_by,
+        updated_by=created_by
     )
 
     db.add(new_patient)

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 
 
 class DoctorCreate(BaseModel):
@@ -6,10 +6,32 @@ class DoctorCreate(BaseModel):
     specialization: str
     email: EmailStr
 
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "name": "Dinesh Reddy",
+                "specialization": "Cardiology",
+                "email": "dineshreddy@example.com"
+            }
+        }
+    )
+
+
 class DoctorUpdate(BaseModel):
     name: str
     specialization: str
     email: EmailStr
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "name": "Updated Doctor",
+                "specialization": "Neurology",
+                "email": "doctor@example.com"
+            }
+        }
+    )
+
 
 class DoctorResponse(BaseModel):
     id: int
@@ -18,11 +40,13 @@ class DoctorResponse(BaseModel):
     email: EmailStr
     is_active: bool
 
+    model_config = ConfigDict(from_attributes=True)
+
+
 class DoctorListResponse(BaseModel):
     total: int
     page: int
     limit: int
     data: list[DoctorResponse]
-    
-    class Config:
-        from_attributes = True
+
+    model_config = ConfigDict(from_attributes=True)

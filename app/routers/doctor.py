@@ -25,7 +25,8 @@ def create_doctor(
     db,
     doctor.name,
     doctor.specialization,
-    doctor.email
+    doctor.email,
+    current_user["email"]
 )
 
 @router.get("/", response_model=DoctorListResponse)
@@ -89,6 +90,7 @@ def update_doctor(
     existing_doctor.name = doctor.name
     existing_doctor.specialization = doctor.specialization
     existing_doctor.email = doctor.email
+    existing_doctor.updated_by = current_user["email"]
 
     db.commit()
     db.refresh(existing_doctor)

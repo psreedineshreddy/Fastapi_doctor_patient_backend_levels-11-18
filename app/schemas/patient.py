@@ -1,4 +1,6 @@
-from pydantic import BaseModel, Field, field_validator
+from datetime import datetime
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class PatientCreate(BaseModel):
@@ -14,6 +16,17 @@ class PatientCreate(BaseModel):
             raise ValueError("Phone number must contain exactly 10 digits")
         return value
 
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "name": "Deepak",
+                "age": 28,
+                "phone": "9876543210",
+                "doctor_id": 1
+            }
+        }
+    )
+
 
 class PatientResponse(BaseModel):
     id: int
@@ -21,6 +34,12 @@ class PatientResponse(BaseModel):
     age: int
     phone: str
     doctor_id: int
+    created_at: datetime
+    updated_at: datetime
+    created_by: str | None
+    updated_by: str | None
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class PatientListResponse(BaseModel):
@@ -29,5 +48,4 @@ class PatientListResponse(BaseModel):
     limit: int
     data: list[PatientResponse]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
